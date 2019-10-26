@@ -1,2 +1,2 @@
 # mvc_model2_board
- model2ë¥¼ ì ìš©í•œ ê²Œì‹œíŒ
+ model2¸¦ Àû¿ëÇÑ MVC ÆÐÅÏÀÇ °Ô½ÃÆÇ
