@@ -11,7 +11,7 @@ import userVO.UserVO;
 public class JoinCommand implements Command {
 
 	@Override
-	public int execute(HttpServletRequest request, HttpServletResponse response) {
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		String userName = request.getParameter("userName");
 		String userID = request.getParameter("userID");
@@ -24,7 +24,8 @@ public class JoinCommand implements Command {
 		UserVO uvo = new UserVO(userName, userID, userPW, userEmail, userGender, userIntro);
 		UserDAO udao = new UserDAO();
 		int result = udao.join(uvo);
-		return result;
+
+		request.setAttribute("result",result);
 	}
 
 }
