@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import command.Command;
+import command.IdCheckCommand;
 import command.JoinCommand;
 
 /**
@@ -66,10 +67,20 @@ public class FrontController extends HttpServlet {
 			viewPage = "join.jsp";
 		}else if(com.equals("/joinAction.do")) {
 			command = new JoinCommand();
-			result = command.execute(request, response);
+			command.execute(request, response);
+			int result = (int) request.getAttribute("result");
 			if(result == 1) viewPage = "main.do";
 			else if(result == 0) viewPage = "error500.do";
 			else if(result == -1) viewPage = "error500.do";
+		}else if(com.equals("/idCheck.do")) {
+			System.out.println("idCheck controller");
+			command = new IdCheckCommand();
+			command.execute(request, response);
+//			boolean result = (boolean) request.getAttribute("able");
+//			if(result) viewPage = "main.do";
+//			else if(result == 0) viewPage = "error500.do";
+//			else if(result == -1) viewPage = "error500.do";
+			viewPage = "idCheck.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
