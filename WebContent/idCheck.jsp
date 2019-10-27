@@ -15,8 +15,6 @@
 </head>
 <body>
 	<h1>IDCheck</h1>
-	들어온 값 ${requestScope.able }<br>
-	파라미터 값 ||  ${param.idInput } ||<br>
 	
 	<hr>
 	<c:set var="able" value="${requestScope.able }"/>

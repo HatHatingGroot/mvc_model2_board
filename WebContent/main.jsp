@@ -13,6 +13,7 @@
 </head>
 <body>
 	<h1>Welcome to Main Page!!</h1>
+	
 	<jsp:include page="nav.jsp"></jsp:include>
 </body>
 </html>

@@ -8,10 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 
 import command.Command;
 import command.IdCheckCommand;
 import command.JoinCommand;
+import command.LogInCommand;
+import command.LogOutCommand;
 
 /**
  * Servlet implementation class FrontController
@@ -73,14 +76,30 @@ public class FrontController extends HttpServlet {
 			else if(result == 0) viewPage = "error500.do";
 			else if(result == -1) viewPage = "error500.do";
 		}else if(com.equals("/idCheck.do")) {
-			System.out.println("idCheck controller");
 			command = new IdCheckCommand();
 			command.execute(request, response);
-//			boolean result = (boolean) request.getAttribute("able");
-//			if(result) viewPage = "main.do";
-//			else if(result == 0) viewPage = "error500.do";
-//			else if(result == -1) viewPage = "error500.do";
 			viewPage = "idCheck.jsp";
+		}else if(com.equals("/logIn.do")) {
+			viewPage = "logIn.jsp";
+		}else if(com.equals("/logInAction.do")) {
+			System.out.println("loginAction cont ");
+			command = new LogInCommand();
+			command.execute(request, response);
+			if(request.getAttribute("idIncorrect") == null &&
+			   request.getAttribute("pwIncorrect") == null) {
+				//아이디 또는 패스워드 불일치
+				viewPage = "main.jsp";
+			}else {
+				viewPage="logIn.jsp";
+			}
+		}else if(com.equals("/logOut.do")) {
+			System.out.println("logOut cont ");
+			command = new LogOutCommand();
+			command.execute(request, response);
+			viewPage = "main.jsp";
+		}else if(com.equals("/findIDPW.do")) {
+			System.out.println("findIDPW cont ");
+			viewPage = "findIDPW.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

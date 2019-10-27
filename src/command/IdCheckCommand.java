@@ -13,8 +13,6 @@ public class IdCheckCommand implements Command {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		// TODO Auto-generated method stub
-		System.out.println("idCheck command");
 		String idInput = request.getParameter("idInput");
 		UserDAO udao = new UserDAO();
 		UserVO uvo = udao.getUser(idInput);
