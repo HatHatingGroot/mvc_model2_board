@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java"  isELIgnored="false" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -12,6 +12,8 @@
 		font-family: 'Jua', sans-serif;
 	}
 </style>
+	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+	<script src="https://code.jquery.com/jquery-migrate-3.1.0.js"></script>
 </head>
 <body>
 	<h1>IDCheck</h1>
@@ -32,8 +34,9 @@
 
 	<script>
 		function isAble(){
+			var idInput = ${param.idInput };
 			opener.document.getElementById("isAble").value = 'true';
-			opener.document.frm.userID.value = ${param.idInput };
+			opener.document.frm.userID.value = idInput;
 			window.close();
 		}
 		function checkID(){

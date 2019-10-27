@@ -101,4 +101,74 @@ public class UserDAO {
 		}
 	}
 
+	public int initPW(String userID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			String tempPW = "ThisIstempPW33";// 임시 비밀번호 생성
+			String sql = "UPDATE mvc_clients SET userPW = ? WHERE userID = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, tempPW);
+			pstmt.setString(2, userID);
+
+			if (pstmt.executeUpdate() == 1) {
+				return 1; // 업데이트 성공
+			} else {
+				return 0; // 업데이트 실패
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1; // DB 오류
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public UserVO findID(String userName, String userEmail) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			String sql = "SELECT userID FROM mvc_clients WHERE userName = ? AND userEmail = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, userEmail);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				UserVO uvo = new UserVO();
+				uvo.setUserID(rs.getString("userID"));
+				return uvo; // 업데이트 성공
+			} else {
+				return null; // 업데이트 실패
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null; // DB 오류
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

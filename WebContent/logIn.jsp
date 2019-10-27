@@ -62,13 +62,14 @@ input:focus {
 				</script>
 			</c:when>
 		</c:choose>
-
+		
+		
 		<form name="frm" action="logInAction.do" method="post">
 			<span class="userInput">ID</span><input type="text" name="userID" autofocus>
 			<br> <br> 
 			<span class="userInput">PW</span><input type="password" name="userPW">
 			<br> <br> 
-			<input class="btn" type="button" value="ID/PW찾기" onclick="location.href='findIDPW.do';">&nbsp;&nbsp;
+			<input class="btn" type="button" value="ID 찾기 / PW 초기화" onclick="location.href='findIDPW.do';">&nbsp;&nbsp;
 			<input class="btn" type="submit" value="로그인하기" onclick="return isFilled();">&nbsp;&nbsp;
 			<input class="btn" type="button" value="회원가입하기" onclick="location.href='join.do';">
 		</form>

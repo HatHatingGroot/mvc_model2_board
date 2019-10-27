@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
 
 import command.Command;
+import command.FindIDPWCommand;
 import command.IdCheckCommand;
 import command.JoinCommand;
 import command.LogInCommand;
@@ -100,6 +101,11 @@ public class FrontController extends HttpServlet {
 		}else if(com.equals("/findIDPW.do")) {
 			System.out.println("findIDPW cont ");
 			viewPage = "findIDPW.jsp";
+		}else if(com.equals("/findAction.do")) {
+			System.out.println("findAction cont ");
+			command = new FindIDPWCommand();
+			command.execute(request, response);
+			viewPage = "findIDPW.jsp";	
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
