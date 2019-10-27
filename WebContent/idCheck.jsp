@@ -12,8 +12,6 @@
 		font-family: 'Jua', sans-serif;
 	}
 </style>
-	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-	<script src="https://code.jquery.com/jquery-migrate-3.1.0.js"></script>
 </head>
 <body>
 	<h1>IDCheck</h1>
@@ -34,9 +32,8 @@
 
 	<script>
 		function isAble(){
-			var idInput = ${param.idInput };
 			opener.document.getElementById("isAble").value = 'true';
-			opener.document.frm.userID.value = idInput;
+			opener.document.frm.userID.value = '${param.idInput }';
 			window.close();
 		}
 		function checkID(){

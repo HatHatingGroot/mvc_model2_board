@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -107,7 +108,15 @@ public class UserDAO {
 
 		try {
 			con = ds.getConnection();
-			String tempPW = "ThisIstempPW33";// 임시 비밀번호 생성
+			Random rd = new Random();
+			String tempPW = "";
+			char[] data = new char[3];
+			for(int i=0; i<4; i++) {
+				data[0] = (char)(rd.nextInt(10)+48);//숫자
+				data[1] = (char)(rd.nextInt(26)+65);//소문자
+				data[2] = (char)(rd.nextInt(26)+97);//대문자
+				tempPW += String.valueOf(data);
+			}
 			String sql = "UPDATE mvc_clients SET userPW = ? WHERE userID = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, tempPW);

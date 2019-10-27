@@ -59,10 +59,10 @@ header {
 			inputCorrect : ${inputCorrect } <br> PW : ${PW } <br> ID : ${ID } <br>
 			<hr>
 				<c:if test="${PW != null }">
-					<script>alert('회원님의 초기화 비밀번호는 ' + ${PW } +' 입니다');</script>
+					<script>alert('회원님의 초기화 비밀번호는 ' + '${PW }' +' 입니다');</script>
 				</c:if>
 				<c:if test="${ID != null }">
-					<script>alert('회원님의 아이디는 ' + ${ID} +' 입니다');</script>
+					<script>alert('회원님의 아이디는 ' + '${ID}' +' 입니다');</script>
 				</c:if>
 					
 			<c:if test="${inputCorrect eq 'false' }">
@@ -110,6 +110,14 @@ header {
 			document.getElementById("submit").value = "비밀번호 초기화";
 		}
 
+		function writeDomain() {
+			var target = document.getElementById("selection");
+			var domainAddr = target.options[target.selectedIndex].value
+			if (domainAddr == "") {
+				document.getElementById("userEmailDomain").focus();
+			}
+			document.getElementById("userEmailDomain").value = domainAddr;
+		}
 		function isFilled() {
 			var name = document.frm.userName;
 			var userID = document.frm.userID;
