@@ -28,6 +28,7 @@ public class FindIDPWCommand implements Command {
 		if (find.equals("findPW")) {
 			userID = request.getParameter("userID");
 			UserVO uvo = udao.getUser(userID);
+			request.setAttribute("uvo", uvo);
 			if (uvo != null) {
 				if (uvo.getUserName().equals(userName) && uvo.getUserEmail().equals(userEmail)) {
 					if (udao.initPW(userID) == 1) { // 임시비밀번호로 초기화

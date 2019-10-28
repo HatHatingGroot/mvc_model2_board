@@ -46,6 +46,7 @@ header {
 </style>
 </head>
 <body>
+	<jsp:include page="nav.jsp"></jsp:include>
 	<header>
 		<h3 id="title">Find ID</h3>
 	</header>
@@ -55,8 +56,6 @@ header {
 			<c:set var="inputCorrect" value="${requestScope.inputCorrect }" />
 			<c:set var="PW" value="${PW.userPW }" scope="page" />
 			<c:set var="ID" value="${requestScope.ID }" />
-			<hr>
-			inputCorrect : ${inputCorrect } <br> PW : ${PW } <br> ID : ${ID } <br>
 			<hr>
 				<c:if test="${PW != null }">
 					<script>alert('회원님의 초기화 비밀번호는 ' + '${PW }' +' 입니다');</script>
@@ -71,8 +70,6 @@ header {
 					</script>
 			</c:if>
 
-			<hr>
-			inputCorrect : ${inputCorrect } <br> PW : ${PW } <br> ID : ${ID } <br>
 			<hr>
 
 			<form name="frm" class="input" action="findAction.do" method="post">

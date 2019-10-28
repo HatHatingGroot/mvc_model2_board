@@ -24,6 +24,7 @@ body {
 	<hr>
 	<c:set var="session" value="${sessionScope.userID}" scope = "session"/>
 	<c:set var="userID" value="${uvo.userID}" scope="request" />
+	<c:set var="uvo" value="${requestScope.uvo}" scope="session" />
 	<br>
 	<hr>
 

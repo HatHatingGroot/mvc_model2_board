@@ -18,6 +18,7 @@ public class LogInCommand implements Command {
 		String userPW = request.getParameter("userPW");
 		UserDAO udao = new UserDAO();
 		UserVO uvo = udao.getUser(userID);
+		request.setAttribute("uvo", uvo);
 		if(uvo!=null) {
 			if(uvo.getUserPW().equals(userPW)) {
 				HttpSession session = request.getSession();

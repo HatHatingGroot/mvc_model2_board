@@ -16,6 +16,9 @@ import command.IdCheckCommand;
 import command.JoinCommand;
 import command.LogInCommand;
 import command.LogOutCommand;
+import command.PersonalInfoCommand;
+import command.PersonalInfoModCommand;
+import command.WithdrawalCommand;
 
 /**
  * Servlet implementation class FrontController
@@ -106,6 +109,20 @@ public class FrontController extends HttpServlet {
 			command = new FindIDPWCommand();
 			command.execute(request, response);
 			viewPage = "findIDPW.jsp";	
+		}else if(com.equals("/myPage.do")) {
+			viewPage = "mypage.jsp";	
+		}else if(com.equals("/personalInfo.do")) {
+			command = new PersonalInfoCommand();
+			command.execute(request, response);
+			viewPage = "personalInfo.jsp";	
+		}else if(com.equals("/withdrawal.do")) {
+			command = new WithdrawalCommand();
+			command.execute(request, response);
+			viewPage = "mypage.jsp";	
+		}else if(com.equals("/personalInfoMod.do")) {
+			command = new PersonalInfoModCommand();
+			command.execute(request, response);
+			viewPage = "mypage.jsp";	
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

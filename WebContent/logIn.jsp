@@ -44,6 +44,7 @@ input:focus {
 </style>
 </head>
 <body>
+	<jsp:include page="nav.jsp"></jsp:include>
 	<header>
 		<h3>Log-In</h3>
 	</header>

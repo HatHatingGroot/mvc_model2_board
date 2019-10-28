@@ -41,6 +41,7 @@ header {
 </style>
 </head>
 <body>
+	<jsp:include page="nav.jsp"></jsp:include>
 	<header>
 		<h3>Join</h3>
 	</header>

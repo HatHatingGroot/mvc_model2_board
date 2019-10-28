@@ -180,4 +180,76 @@ public class UserDAO {
 			}
 		}
 	}
+	
+	public int withdraw(String userID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			Random rd = new Random();
+			String sql = "DELETE mvc_clients WHERE userID = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userID);
+
+			if (pstmt.executeUpdate() == 1) {
+				return 1; // 업데이트 성공
+			} else {
+				return 0; // 업데이트 실패
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1; // DB 오류
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+
+	public int modUser(UserVO inputUvo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			Random rd = new Random();
+			String tempPW = "";
+			String sql = "UPDATE mvc_clients SET userName = ?, userEmail=?, userIntro=? WHERE userID = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, inputUvo.getUserName());
+			pstmt.setString(2, inputUvo.getUserEmail());
+			pstmt.setString(3, inputUvo.getUserIntro());
+			pstmt.setString(4, inputUvo.getUserID());
+			
+
+			if (pstmt.executeUpdate() == 1) {
+				return 1; // 업데이트 성공
+			} else {
+				return 0; // 업데이트 실패
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1; // DB 오류
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
