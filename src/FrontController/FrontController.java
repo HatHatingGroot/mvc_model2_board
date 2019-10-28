@@ -14,6 +14,7 @@ import command.Command;
 import command.FindIDPWCommand;
 import command.IdCheckCommand;
 import command.JoinCommand;
+import command.ListCommand;
 import command.LogInCommand;
 import command.LogOutCommand;
 import command.PersonalInfoCommand;
@@ -123,6 +124,10 @@ public class FrontController extends HttpServlet {
 			command = new PersonalInfoModCommand();
 			command.execute(request, response);
 			viewPage = "mypage.jsp";	
+		}else if(com.equals("/list.do")) {
+			command = new ListCommand();
+			command.execute(request, response);
+			viewPage = "list.jsp";	
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
