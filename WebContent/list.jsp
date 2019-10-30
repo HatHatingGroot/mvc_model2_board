@@ -15,8 +15,8 @@
 	border:2px solid gray;
 	border-collapse:collapse;
 	}
- 	input[type=radio]{  
-  	display:none;}  
+ 	input[type=radio]{   
+  	display:none;}   
   	#pageList{
   		width:350px;
   		text-align:center;
@@ -29,37 +29,65 @@
 	
 	
 	<hr>
-	<form name="frm">
-<!-- 	<label><input type="radio" name="direction" value="DESC" onclick="reArrange();">내림차순</label> -->
-<!-- 	<label><input type="radio" name="direction" value="ASC" onclick="reArrange();">오름차순</label> -->
 	
 	
-	<c:choose>
-		<c:when test="${param.pageNum == null}">
-			<c:set var="pageNum" value="1"/>
+	
+<%-- 	<c:choose> --%>
+<%-- 		<c:when test="${param.pageNum == null}"> --%>
+<%-- 			<c:set var="pageNum" value="1"/> --%>
+<%-- 		</c:when> --%>
+<%-- 		<c:when test="${param.pageNum != null}"> --%>
+<%-- 			<c:set var="pageNum" value="${param.pageNum}"/> --%>
+<%-- 		</c:when> --%>
+<%-- 	</c:choose> --%>
+	
+<%-- 	pageNum : ${pageNum}<br> --%>
+<%-- 	beginIndex : ${(pageNum-1)*3}<br> --%>
+<%-- 	endIndex : ${(pageNum-1)*3 + 3}<br> --%>
+<%-- 	listLength : ${fn:length(requestScope.list )/3}<br> --%>
+<%-- 	<c:set var = "listLength" value="${fn:length(requestScope.list )/3}"/> --%>
+<%-- 	maxPageNum : ${listLength+(1-(listLength%1))%1} --%>
+<%-- 	<c:set var = "maxPageNum" value="${listLength+(1-(listLength%1))%1}"/> --%>
+		<c:set var="pageNum" value="${param.pageNum}"/> 
+		
+		<c:if test="${param.pageNum == null}">
+		<c:set var="pageNum" value="1"/>
+		</c:if>
+		
+		<c:set var="period" value="3"/>
+		
+		param.sort : ${param.sort}<br>
+		param.order : ${param.order}<br>
+		param.pageNum : ${param.pageNum}<br>
+		pageNum : ${pageNum}<br>
+		period : ${period }<br>
+		
+		<c:choose>
+		<c:when test="${pageNum < 3}">
+		<c:set var="begin" value="${(pageNum-1)*period}"/>
+		<c:set var="end" value="${(pageNum)*period -1}"/>
 		</c:when>
-		<c:when test="${param.pageNum != null}">
-			<c:set var="pageNum" value="${param.pageNum}"/>
-		</c:when>
-	</c:choose>
-	
-	pageNum : ${pageNum}<br>
-	beginIndex : ${(pageNum-1)*3}<br>
-	endIndex : ${(pageNum-1)*3 + 3}<br>
-	listLength : ${fn:length(requestScope.list )/3}<br>
-	<c:set var = "listLength" value="${fn:length(requestScope.list )/3}"/>
-	maxPageNum : ${listLength+(1-(listLength%1))%1}
-	<c:set var = "maxPageNum" value="${listLength+(1-(listLength%1))%1}"/>
+		<c:otherwise>
+		<c:set var="begin" value="6"/>
+		<c:set var="end" value="8"/>
+		</c:otherwise>
+		</c:choose>
+		begin : ${begin }<br>
+		end : ${end }<br>
+		<form name="frm">
+	<label class="order"  id="DESC" ><input type="radio" name="order"value="DESC" onclick="chOrder(this);">내림차순</label>
+	<label class="order" id="ASC" ><input type="radio" name="order" value="ASC" onclick="chOrder(this);">오름차순</label>
 	<table>
 		<tr>
 			<th>글번호</th>
 			<th>제목</th>
 			<th>작성자</th>
-			<th><label><input type="radio" name="arrange" value="bDate" onclick="setArrStandard(this);reArrange();">작성일</label></th>
-			<th><label><input type="radio" name="arrange" value="bHit" onclick="setArrStandard(this);reArrange();">조회수</label></th>
-			<th><label><input type="radio" name="arrange" value="bLike" onclick="setArrStandard(this);reArrange();">좋아요</label></th>
+			<th><label id="bDate" ><input type="radio" name="sort" value="bDate" onclick="chSort(this);">작성일</label></th>
+			<th><label id="bHit"><input type="radio" name="sort" value="bHit" onclick="chSort(this);">조회수</label></th>
+			<th><label id="bLike"><input type="radio" name="sort" value="bLike" onclick="chSort(this);">좋아요</label></th>
 		</tr>
-		<c:forEach var="b" begin="${(pageNum-1)*3}" end="${(pageNum-1)*3 + 2}" step="1" items="${requestScope.list }">
+		<c:forEach var="b" begin="${begin }" end="${end }" step="1" items="${requestScope.list }">
+<%-- 		<c:forEach var="b"  items="${requestScope.list }"> --%>
 		<tr>
 			<td>${b.bID }</td><td><a href="content_view.do?bID=${b.bID }">${b.bTitle }</a></td><td>${b.userID }</td><td>${b.bDate }</td><td>${b.bHit }</td><td>${b.bLike }</td>
 		<tr>
@@ -67,43 +95,98 @@
 		
 	</table>
 	</form>
-	<select id="searchCon">
+	<select id="queryType">
 		<option value="userID">작성자</option>
 		<option value="bTitle">제목</option>
 		<option value="bContent">내용</option>
 		<option value="bID">글번호</option>
 	</select>
-	<input type="text" id="search" ><input type="button" value="검색">
+	<input type="text" id="query" ><input type="button" value="검색" onclick="doQuery();">
+	listLength : ${fn:length(requestScope.list )}
+	<c:set var = "listLength" value="${fn:length(requestScope.list )}"/>
 	
 	<div id="pageList">
+		<c:if test="${pageNum>2 }">
+			<input type="button" value = "${pageNum -2 }" onclick="chPageNum(${pageNum -2})">
+		</c:if>
 		<c:if test="${pageNum>1 }">
-			<a href="list.do?pageNum=${pageNum -1 }">${pageNum -1 }</a>
+			<input type="button" value = "${pageNum -1 }" onclick="chPageNum(${pageNum -1})">
 		</c:if>
-			<a href="list.do?pageNum=${pageNum }">${pageNum }</a>
-		<c:if test="${pageNum<maxPageNum }">
-			<a href="list.do?pageNum=${pageNum +1 }">${pageNum +1 }</a>
+			<input type="button" value = "${pageNum }" onclick="chPageNum(${pageNum })" style="border:2px solid blue;">
+		
+		<c:if test="${(pageNum==1) }">
+		<c:if test="${(listLength>3) }">
+			<input type="button" value = "${pageNum +1 }" onclick="chPageNum(${pageNum +1})">
 		</c:if>
+		<c:if test="${(listLength>6) }">
+			<input type="button" value = "${pageNum +2 }" onclick="chPageNum(${pageNum +2})">
+		</c:if>
+		</c:if>
+		
+		<c:if test="${(pageNum==2) }">
+		<c:if test="${(listLength>6) }">
+			<input type="button" value = "${pageNum +1 }" onclick="chPageNum(${pageNum +1})">
+		</c:if>
+		<c:if test="${(listLength>9) }">
+			<input type="button" value = "${pageNum +2 }" onclick="chPageNum(${pageNum +2})">
+		</c:if>
+		</c:if>
+		
+		<c:if test="${(pageNum>2) }">
+		<c:if test="${listLength>(3*period) }">
+			<input type="button" value = "${pageNum +1 }" onclick="chPageNum(${pageNum +1})">
+		</c:if>
+		<c:if test="${listLength>(4*period) }">
+			<input type="button" value = "${pageNum +2 }" onclick="chPageNum(${pageNum +2})">
+		</c:if>
+		</c:if>
+		
 	</div>
 	<script>
-		var arrStandard = "";
-		function setArrStandard(obj){
-			arrStandard = obj.value;
+		
+		var sort = "bDate"; // 정렬 기준
+		var order = "DESC" // 정렬 방향
+		var pageNum = ""; //페이지 번호
+		var queryType = "";
+		var query = "";
+		if('${param.sort }' !=null &'${param.sort }' !='' ) sort = '${param.sort }';
+		if('${param.order }' !=null&'${param.order }' !='' ) order = '${param.order }';
+		if('${param.pageNum }' !=null) pageNum = '${param.pageNum }';
+		if('${param.queryType }' !=null) queryType = '${param.queryType }';
+		if('${param.query }' !=null) query = '${param.query }';
+		
+		document.getElementById(sort).style.color = "blue";
+		document.getElementById(sort).style.fontWeight = "bold";
+		
+		document.getElementById(order).style.color = "blue";
+		document.getElementById(order).style.fontWeight = "bold";
+		
+		
+
+		function chSort(obj){//정렬 함수
+			sort = obj.value;
+			pageNum = 1;
+			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
 		}
-		function getPageNum(){
-			return ${pageNum};
+		
+		function chOrder(obj){//정렬 방향 함수
+			order = obj.value;
+			pageNum = 1;
+			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
 		}
-		function getArrStandard(){
-			return arrStandard;
+		
+		function chPageNum(pNum){//페이지 이동
+			pageNum = pNum;
+			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
 		}
-		function reArrange(){
-// 			var arrStandard = document.getElementById("arrange").value;
-// 			var direction = document.getElementById("direction").value;
-// 			var direction = document.frm.direction.value;
-// 			location.href=("list.do?arrStandard="+arrStandard+"&direction="+direction);
-			var p1 = getPageNum();
-			var p2 = getArrStandard();
-			location.href=("list.do?pageNum="+p1+"&arrStandard="+p2);
+		
+		function doQuery(){//검색 
+			queryType = document.getElementById('queryType').value;	
+			query = document.getElementById('query').value;
+			pageNum = 1;
+			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
 		}
+		
 	</script>
 </body>
 </html>

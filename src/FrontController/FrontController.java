@@ -19,6 +19,7 @@ import command.LogInCommand;
 import command.LogOutCommand;
 import command.PersonalInfoCommand;
 import command.PersonalInfoModCommand;
+//import command.SearchCommand;
 import command.WithdrawalCommand;
 
 /**
@@ -127,8 +128,13 @@ public class FrontController extends HttpServlet {
 		}else if(com.equals("/list.do")) {
 			command = new ListCommand();
 			command.execute(request, response);
-			viewPage = "list.jsp";	
-		}
+			viewPage = "list.jsp";
+		}	
+//		}else if(com.equals("/search.do")) {
+//			command = new SearchCommand();
+//			command.execute(request, response);
+//			viewPage = "list.jsp";	
+//		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
