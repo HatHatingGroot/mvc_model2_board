@@ -61,19 +61,31 @@
 	<label class="order" id="ASC" ><input type="radio" name="order" value="ASC" onclick="chOrder(this);">오름차순</label>
 	<table>
 		<tr>
-			<th>글번호</th>
-			<th>제목</th>
-			<th>작성자</th>
-			<th><label id="bDate" ><input type="radio" name="sort" value="bDate" onclick="chSort(this);">작성일</label></th>
-			<th><label id="bHit"><input type="radio" name="sort" value="bHit" onclick="chSort(this);">조회수</label></th>
-			<th><label id="bLike"><input type="radio" name="sort" value="bLike" onclick="chSort(this);">좋아요</label></th>
+			<td>userID</td>
+			<td>replyNum</td>
+			<td>bHit</td>
 		</tr>
-		<c:forEach var="b" begin="${begin }" end="${end }" step="1" items="${requestScope.list }">
+		<tr>
+			<td>bDate</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>bTitle</td>
+			<td>bLike</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>bContent</td>
+			<td></td>
+			<td></td>
+		</tr>
+<%-- 		<c:forEach var="b" begin="${begin }" end="${end }" step="1" items="${requestScope.list }"> --%>
 
-		<tr>
-			<td>${b.bID }</td><td><a href="content_view.do?bID=${b.bID }">${b.bTitle }</a></td><td>${b.userID }</td><td>${b.bDate }</td><td>${b.bHit }</td><td>${b.bLike }</td>
-		<tr>
-		</c:forEach>
+<!-- 		<tr> -->
+<%-- 			<td>${b.bID }</td><td><a href="content_view.do?bID=${b.bID }">${b.bTitle }</a></td><td>${b.userID }</td><td>${b.bDate }</td><td>${b.bHit }</td><td>${b.bLike }</td> --%>
+<!-- 		<tr> -->
+<%-- 		</c:forEach> --%>
 		
 	</table>
 	</form>

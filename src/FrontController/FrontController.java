@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
 
 import command.Command;
+import command.ContentViewCommand;
 import command.FindIDPWCommand;
 import command.IdCheckCommand;
 import command.JoinCommand;
@@ -129,12 +130,11 @@ public class FrontController extends HttpServlet {
 			command = new ListCommand();
 			command.execute(request, response);
 			viewPage = "list.jsp";
-		}	
-//		}else if(com.equals("/search.do")) {
-//			command = new SearchCommand();
-//			command.execute(request, response);
-//			viewPage = "list.jsp";	
-//		}
+		}else if(com.equals("/content_view.do")) {
+			command = new ContentViewCommand();
+			command.execute(request, response);
+			viewPage = "list.jsp";
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
