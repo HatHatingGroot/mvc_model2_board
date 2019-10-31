@@ -1,6 +1,7 @@
 package FrontController;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,16 +13,20 @@ import javax.websocket.Session;
 
 import command.Command;
 import command.ContentViewCommand;
+import command.DeleteCommand;
 import command.FindIDPWCommand;
 import command.IdCheckCommand;
 import command.JoinCommand;
 import command.ListCommand;
 import command.LogInCommand;
 import command.LogOutCommand;
+import command.ModifyCommand;
 import command.PersonalInfoCommand;
 import command.PersonalInfoModCommand;
+import command.ReplyCommand;
 //import command.SearchCommand;
 import command.WithdrawalCommand;
+import command.WriteCommand;
 
 /**
  * Servlet implementation class FrontController
@@ -133,7 +138,29 @@ public class FrontController extends HttpServlet {
 		}else if(com.equals("/content_view.do")) {
 			command = new ContentViewCommand();
 			command.execute(request, response);
-			viewPage = "list.jsp";
+			viewPage = "content_view.jsp";
+		}else if(com.equals("/write.do")) {
+			viewPage = "write.jsp";
+		}else if(com.equals("/writeAction.do")) {
+			command = new WriteCommand();
+			command.execute(request, response);
+			viewPage = "list.do";
+		}else if(com.equals("/modify.do")) {
+			command = new ContentViewCommand();
+			command.execute(request, response);
+			viewPage = "modify.jsp";
+		}else if(com.equals("/modifyAction.do")) {
+			command = new ModifyCommand();
+			command.execute(request, response);
+			viewPage = "list.do";
+		}else if(com.equals("/delete.do")) {
+			command = new DeleteCommand();
+			command.execute(request, response);
+			viewPage = "list.do";
+		}else if(com.equals("/reply.do")) {
+			command = new ReplyCommand();
+			command.execute(request, response);
+			viewPage = "content_view.do";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

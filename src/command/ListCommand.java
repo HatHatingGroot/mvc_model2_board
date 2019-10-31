@@ -39,13 +39,13 @@ public class ListCommand implements Command {
 		}
 		
 
-//		System.out.println("========최종 매개변수 시작============");
-//		System.out.println("sort :" + sort);
-//		System.out.println("order :" + order);
-//		System.out.println("pageNum :" + pageNum);
-//		System.out.println("queryType :" + queryType);
-//		System.out.println("query :" + query);
-//		System.out.println("========최종 매개변수 시작============");
+		System.out.println("========최종 매개변수 시작============");
+		System.out.println("sort :" + sort);
+		System.out.println("order :" + order);
+		System.out.println("pageNum :" + pageNum);
+		System.out.println("queryType :" + queryType);
+		System.out.println("query :" + query);
+		System.out.println("========최종 매개변수 시작============");
 		
 		BDAO bdao = new BDAO();
 		ArrayList<BVO> list = bdao.getList(sort,order,pageNum, queryType, query);

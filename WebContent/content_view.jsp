@@ -1,186 +1,215 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	@import url('https://fonts.googleapis.com/css?family=Jua&display=swap');
-	body {
-		font-family: 'Jua', sans-serif;
-	}
-	table, td, th{
-	border:2px solid gray;
-	border-collapse:collapse;
-	}
- 	input[type=radio]{   
-  	display:none;}   
-  	#pageList{
-  		width:350px;
-  		text-align:center;
-  	}
+@import url('https://fonts.googleapis.com/css?family=Jua&display=swap');
+
+body {
+	font-family: 'Jua', sans-serif;
+}
+
+#wrapper {
+	width: 800px;
+	height: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	/* 		text-align:center; */
+}
+
+table, td, th {
+	border: 2px solid gray;
+	border-collapse: collapse;
+}
+
+input[type=radio] {
+	display: none;
+}
+
+#pageList {
+	width: 350px;
+	text-align: center;
+}
+
+#ContentShow ,#setReply{
+	width: 600px;
+	height: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+}
+#setReply{ height:200px;}
+#ContentShow tr:first-of-type td:first-of-type {
+	width: 80%;
+}
+
+#ContentShow tr:first-of-type td:last-of-type {
+	width: 10%;
+}
+
+#ContentShow tr:last-of-type {
+	height: 80%;
+}
+
+#replyShow {
+	width: 600px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 3px;
+}
+
+#replyShow tr:first-of-type td:first-of-type {
+	width: 90%;
+}
+
+#replyShow tr:last-of-type {
+	height: 70%;
+}
+
+.toDo {
+	margin-bottom: 10px;
+}
+#setReply textarea{
+	width:100%;
+	height:150px;
+}
 </style>
 </head>
 <body>
-	<h1>Welcome to Board Page!!</h1>
-	<jsp:include page="nav.jsp"></jsp:include>
-	
-	
-	<hr>
-		<c:set var="pageNum" value="${param.pageNum}"/> 
-		
-		<c:if test="${param.pageNum == null}">
-		<c:set var="pageNum" value="1"/>
-		</c:if>
-		
-		<c:set var="period" value="3"/>
-		
-		
-		
-		<c:choose>
-		<c:when test="${pageNum < 3}">
-		<c:set var="begin" value="${(pageNum-1)*period}"/>
-		<c:set var="end" value="${(pageNum)*period -1}"/>
-		</c:when>
-		<c:otherwise>
-		<c:set var="begin" value="6"/>
-		<c:set var="end" value="8"/>
-		</c:otherwise>
-		</c:choose>
-<%-- 		param.sort : ${param.sort}<br> --%>
-<%-- 		param.order : ${param.order}<br> --%>
-<%-- 		param.pageNum : ${param.pageNum}<br> --%>
-<%-- 		pageNum : ${pageNum}<br> --%>
-<%-- 		period : ${period }<br> --%>
-<%-- 		begin : ${begin }<br> --%>
-<%-- 		end : ${end }<br> --%>
-		<form name="frm">
-	<label class="order"  id="DESC" ><input type="radio" name="order"value="DESC" onclick="chOrder(this);">내림차순</label>
-	<label class="order" id="ASC" ><input type="radio" name="order" value="ASC" onclick="chOrder(this);">오름차순</label>
-	<table>
-		<tr>
-			<td>userID</td>
-			<td>replyNum</td>
-			<td>bHit</td>
-		</tr>
-		<tr>
-			<td>bDate</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>bTitle</td>
-			<td>bLike</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>bContent</td>
-			<td></td>
-			<td></td>
-		</tr>
-<%-- 		<c:forEach var="b" begin="${begin }" end="${end }" step="1" items="${requestScope.list }"> --%>
+	<div id="wrapper">
+		<h1>Welcome to Board Page!!</h1>
+		<jsp:include page="nav.jsp"></jsp:include>
 
-<!-- 		<tr> -->
-<%-- 			<td>${b.bID }</td><td><a href="content_view.do?bID=${b.bID }">${b.bTitle }</a></td><td>${b.userID }</td><td>${b.bDate }</td><td>${b.bHit }</td><td>${b.bLike }</td> --%>
-<!-- 		<tr> -->
-<%-- 		</c:forEach> --%>
+<%-- 		<c:set var="dvo" value='${requestScope.bvo }' /> --%>
+		<c:set var="rList" value='${requestScope.rList }' />
+
+		<hr>
+
+		<table id="ContentShow">
+			<tr>
+				<td>${bvo.userID }</td>
+				<td rowspan="2">
+				<c:choose>
+						<c:when test="${rList[0].userID==null}">
+					 		<img src="images/조회수.jpg" width="25px" height="25px">&nbsp; 0
+						</c:when>
+						<c:otherwise>
+							<img src="images/조회수.jpg" width="25px" height="25px">&nbsp;${fn:length(rList )}
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td rowspan="2"><img src="images/댓글.png" width="25px" height="25px">&nbsp;${bvo.bHit }</td>
+			</tr>
+			<tr>
+				<td>${bvo.bDate }</td>
+			</tr>
+			<tr>
+				<td colspan="2">${bvo.bTitle }</td>
+				<td rowspan="2"><img src="images/좋아요.png" width="35px" height="35px" onclick="">&nbsp;${bvo.bLike }</td>
+			</tr>
+			<tr>
+				<td colspan="2">${bvo.bContent }</td>
+			</tr>
+
+		</table>
+		<input class="toDo" type="button" value="목록" onclick="location.href='list.do';"> 
 		
-	</table>
-	</form>
-	<select id="queryType">
-		<option value="userID">작성자</option>
-		<option value="bTitle">제목</option>
-		<option value="bContent">내용</option>
-		<option value="bID">글번호</option>
-	</select>
-	<input type="text" id="query" ><input type="button" value="검색" onclick="doQuery();">
-<%-- 	listLength : ${fn:length(requestScope.list )} --%>
-	<c:set var = "listLength" value="${fn:length(requestScope.list )}"/>
-	
-	<div id="pageList">
-		<c:if test="${pageNum>2 }">
-			<input type="button" value = "${pageNum -2 }" onclick="chPageNum(${pageNum -2})">
-		</c:if>
-		<c:if test="${pageNum>1 }">
-			<input type="button" value = "${pageNum -1 }" onclick="chPageNum(${pageNum -1})">
-		</c:if>
-			<input type="button" value = "${pageNum }" onclick="chPageNum(${pageNum })" style="border:2px solid blue;">
-		
-		<c:if test="${(pageNum==1) }">
-		<c:if test="${(listLength>3) }">
-			<input type="button" value = "${pageNum +1 }" onclick="chPageNum(${pageNum +1})">
-		</c:if>
-		<c:if test="${(listLength>6) }">
-			<input type="button" value = "${pageNum +2 }" onclick="chPageNum(${pageNum +2})">
-		</c:if>
-		</c:if>
-		
-		<c:if test="${(pageNum==2) }">
-		<c:if test="${(listLength>6) }">
-			<input type="button" value = "${pageNum +1 }" onclick="chPageNum(${pageNum +1})">
-		</c:if>
-		<c:if test="${(listLength>9) }">
-			<input type="button" value = "${pageNum +2 }" onclick="chPageNum(${pageNum +2})">
-		</c:if>
+		<c:if test="${sessionScope.userID == bvo.userID }">
+		<input class="toDo" type="button" value="수정" onclick="location.href='modify.do?bID=${param.bID }';"> 
+		<input class="toDo" type="button" value="삭제" onclick="location.href='delete.do?bID=${param.bID }';"> 
 		</c:if>
 		
-		<c:if test="${(pageNum>2) }">
-		<c:if test="${listLength>(3*period) }">
-			<input type="button" value = "${pageNum +1 }" onclick="chPageNum(${pageNum +1})">
-		</c:if>
-		<c:if test="${listLength>(4*period) }">
-			<input type="button" value = "${pageNum +2 }" onclick="chPageNum(${pageNum +2})">
-		</c:if>
-		</c:if>
+		<fieldset>
+		<legend>댓글창</legend>
+		<div id="setReply">
+			<form name="reply" action="reply.do" method="post">
+			<input type="hidden" name="bID" value = "${param.bID }">
+			<input type="hidden" name="userID" value = "${sessionScope.userID }">
+			<textarea name="rContent" maxlength="250" placeholder="내용을 입력해주세요(250자 이내)"></textarea>
+			<input type="submit" value="등록" >
+			</form>
+		</div>
 		
+		
+		
+		<c:forEach var="r" items="${rList }">
+			<c:if test="${r.userID != null }">
+				<table id="replyShow">
+					<tr>
+						<td>${r.userID }</td>
+						<td rowspan="3"><img src="images/좋아요.png" width="35px" height="35px" onclick="">&nbsp;${r.rLike }</td>
+					</tr>
+					<tr>
+						<td>${r.rDate }</td>
+					</tr>
+					<tr>
+						<td>${r.rContent }</td>
+					</tr>
+				</table>
+			</c:if>
+		</c:forEach>
+		</fieldset>
+
 	</div>
 	<script>
-		
 		var sort = "bDate"; // 정렬 기준
 		var order = "DESC" // 정렬 방향
 		var pageNum = ""; //페이지 번호
 		var queryType = "";
 		var query = "";
-		if('${param.sort }' !=null &'${param.sort }' !='' ) sort = '${param.sort }';
-		if('${param.order }' !=null&'${param.order }' !='' ) order = '${param.order }';
-		if('${param.pageNum }' !=null) pageNum = '${param.pageNum }';
-		if('${param.queryType }' !=null) queryType = '${param.queryType }';
-		if('${param.query }' !=null) query = '${param.query }';
-		
+		if ('${param.sort }' != null & '${param.sort }' != '')
+			sort = '${param.sort }';
+		if ('${param.order }' != null & '${param.order }' != '')
+			order = '${param.order }';
+		if ('${param.pageNum }' != null)
+			pageNum = '${param.pageNum }';
+		if ('${param.queryType }' != null)
+			queryType = '${param.queryType }';
+		if ('${param.query }' != null)
+			query = '${param.query }';
+
 		document.getElementById(sort).style.color = "blue";
 		document.getElementById(sort).style.fontWeight = "bold";
-		
+
 		document.getElementById(order).style.color = "blue";
 		document.getElementById(order).style.fontWeight = "bold";
-		
-		
 
-		function chSort(obj){//정렬 함수
+		function chSort(obj) {//정렬 함수
 			sort = obj.value;
 			pageNum = 1;
-			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
+			location.href = ("list.do?sort=" + sort + "&order=" + order
+					+ "&pageNum=" + pageNum + "&queryType=" + queryType
+					+ "&query=" + query);
 		}
-		
-		function chOrder(obj){//정렬 방향 함수
+
+		function chOrder(obj) {//정렬 방향 함수
 			order = obj.value;
 			pageNum = 1;
-			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
+			location.href = ("list.do?sort=" + sort + "&order=" + order
+					+ "&pageNum=" + pageNum + "&queryType=" + queryType
+					+ "&query=" + query);
 		}
-		
-		function chPageNum(pNum){//페이지 이동
+
+		function chPageNum(pNum) {//페이지 이동
 			pageNum = pNum;
-			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
+			location.href = ("list.do?sort=" + sort + "&order=" + order
+					+ "&pageNum=" + pageNum + "&queryType=" + queryType
+					+ "&query=" + query);
 		}
-		
-		function doQuery(){//검색 
-			queryType = document.getElementById('queryType').value;	
+
+		function doQuery() {//검색 
+			queryType = document.getElementById('queryType').value;
 			query = document.getElementById('query').value;
 			pageNum = 1;
-			location.href=("list.do?sort="+sort+"&order="+order+"&pageNum="+pageNum+"&queryType="+queryType+"&query="+query);
+			location.href = ("list.do?sort=" + sort + "&order=" + order
+					+ "&pageNum=" + pageNum + "&queryType=" + queryType
+					+ "&query=" + query);
 		}
-		
 	</script>
 </body>
 </html>

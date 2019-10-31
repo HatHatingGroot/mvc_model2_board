@@ -84,7 +84,10 @@
 		<option value="bID">글번호</option>
 	</select>
 	<input type="text" id="query" ><input type="button" value="검색" onclick="doQuery();">
-<%-- 	listLength : ${fn:length(requestScope.list )} --%>
+	
+	<input type="button" value="글쓰기" onclick="('${sessionScope.userID}'!='')?location.href='write.do':alert('로그인 후 이용할 수 있습니다');">
+<%-- 	listLength : ${fn:length(requestScope.list )}////<br> --%>
+	
 	<c:set var = "listLength" value="${fn:length(requestScope.list )}"/>
 	
 	<div id="pageList">
@@ -125,7 +128,15 @@
 		
 	</div>
 	<script>
-		
+		function write(){
+			var UserID = '${sessionScope.userID }';
+			if (userID != ''){
+// 				location.href='write.do';
+				alert('글쓰기 시작 !!');
+			}else{
+				alert('로그인 후 이용해주세요!!');
+			}
+		}
 		var sort = "bDate"; // 정렬 기준
 		var order = "DESC" // 정렬 방향
 		var pageNum = ""; //페이지 번호
