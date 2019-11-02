@@ -1,6 +1,7 @@
 package FrontController;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,10 +9,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 
 import command.Command;
+import command.ContentViewCommand;
+import command.DeleteCommand;
+import command.FindIDPWCommand;
 import command.IdCheckCommand;
 import command.JoinCommand;
+import command.ListCommand;
+import command.LogInCommand;
+import command.LogOutCommand;
+import command.ModifyCommand;
+import command.PersonalInfoCommand;
+import command.PersonalInfoModCommand;
+import command.ReplyCommand;
+//import command.SearchCommand;
+import command.WithdrawalCommand;
+import command.WriteCommand;
 
 /**
  * Servlet implementation class FrontController
@@ -73,14 +88,79 @@ public class FrontController extends HttpServlet {
 			else if(result == 0) viewPage = "error500.do";
 			else if(result == -1) viewPage = "error500.do";
 		}else if(com.equals("/idCheck.do")) {
-			System.out.println("idCheck controller");
 			command = new IdCheckCommand();
 			command.execute(request, response);
-//			boolean result = (boolean) request.getAttribute("able");
-//			if(result) viewPage = "main.do";
-//			else if(result == 0) viewPage = "error500.do";
-//			else if(result == -1) viewPage = "error500.do";
 			viewPage = "idCheck.jsp";
+		}else if(com.equals("/logIn.do")) {
+			viewPage = "logIn.jsp";
+		}else if(com.equals("/logInAction.do")) {
+			System.out.println("loginAction cont ");
+			command = new LogInCommand();
+			command.execute(request, response);
+			if(request.getAttribute("idIncorrect") == null &&
+			   request.getAttribute("pwIncorrect") == null) {
+				//아이디 또는 패스워드 불일치
+				viewPage = "main.jsp";
+			}else {
+				viewPage="logIn.jsp";
+			}
+		}else if(com.equals("/logOut.do")) {
+			System.out.println("logOut cont ");
+			command = new LogOutCommand();
+			command.execute(request, response);
+			viewPage = "main.jsp";
+		}else if(com.equals("/findIDPW.do")) {
+			System.out.println("findIDPW cont ");
+			viewPage = "findIDPW.jsp";
+		}else if(com.equals("/findAction.do")) {
+			System.out.println("findAction cont ");
+			command = new FindIDPWCommand();
+			command.execute(request, response);
+			viewPage = "findIDPW.jsp";	
+		}else if(com.equals("/myPage.do")) {
+			viewPage = "mypage.jsp";	
+		}else if(com.equals("/personalInfo.do")) {
+			command = new PersonalInfoCommand();
+			command.execute(request, response);
+			viewPage = "personalInfo.jsp";	
+		}else if(com.equals("/withdrawal.do")) {
+			command = new WithdrawalCommand();
+			command.execute(request, response);
+			viewPage = "mypage.jsp";	
+		}else if(com.equals("/personalInfoMod.do")) {
+			command = new PersonalInfoModCommand();
+			command.execute(request, response);
+			viewPage = "mypage.jsp";	
+		}else if(com.equals("/list.do")) {
+			command = new ListCommand();
+			command.execute(request, response);
+			viewPage = "list.jsp";
+		}else if(com.equals("/content_view.do")) {
+			command = new ContentViewCommand();
+			command.execute(request, response);
+			viewPage = "content_view.jsp";
+		}else if(com.equals("/write.do")) {
+			viewPage = "write.jsp";
+		}else if(com.equals("/writeAction.do")) {
+			command = new WriteCommand();
+			command.execute(request, response);
+			viewPage = "list.do";
+		}else if(com.equals("/modify.do")) {
+			command = new ContentViewCommand();
+			command.execute(request, response);
+			viewPage = "modify.jsp";
+		}else if(com.equals("/modifyAction.do")) {
+			command = new ModifyCommand();
+			command.execute(request, response);
+			viewPage = "list.do";
+		}else if(com.equals("/delete.do")) {
+			command = new DeleteCommand();
+			command.execute(request, response);
+			viewPage = "list.do";
+		}else if(com.equals("/reply.do")) {
+			command = new ReplyCommand();
+			command.execute(request, response);
+			viewPage = "content_view.do";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

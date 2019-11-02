@@ -8,19 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import userDAO.UserDAO;
 import userVO.UserVO;
 
-public class IdCheckCommand implements Command {
+public class PersonalInfoCommand implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		String idInput = request.getParameter("idInput");
+		String userID = (String) request.getSession().getAttribute("userID");
+		System.out.println(userID);
 		UserDAO udao = new UserDAO();
-		UserVO uvo = udao.getUser(idInput);
+		UserVO uvo = udao.getUser(userID);
 		
-		if(uvo!=null) request.setAttribute("able", false);//중복확인용 파라미터
-		else request.setAttribute("able", true);
+		if(uvo!=null) request.setAttribute("uvo", uvo);//중복확인용 파라미터
 		
-		request.setAttribute("uvo", uvo);
+		
 		
 	}
 

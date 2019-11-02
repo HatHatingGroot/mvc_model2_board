@@ -41,6 +41,7 @@ header {
 </style>
 </head>
 <body>
+	<jsp:include page="nav.jsp"></jsp:include>
 	<header>
 		<h3>Join</h3>
 	</header>
@@ -63,7 +64,7 @@ header {
 				<input type="password" name="pwCheck" onkeyup="pwRecheck();"> <span id="pwChecked"></span><br><br> 
 				
 				<span class="inputEl"><ruby class="must">이메일<rt>필수입력</rt></ruby></span>
-				<input type="text" name="userEmailID">@<input type="text" name="emailDomain" id="userEmailDomain"> <select id="selection" onchange="writeDomain();">
+				<input type="text" name="userEmailID">@<input type="text" name="userEmailDomain" id="userEmailDomain"> <select id="selection" onchange="writeDomain();">
 					<option value="">직접입력</option>
 					<option value="gmail.com">gmail.com</option>
 					<option value="naver.com">naver.com</option>
